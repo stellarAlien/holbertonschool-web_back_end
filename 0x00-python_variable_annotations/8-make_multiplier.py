@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """_summary_
 returns a function that multiplies a float by multiplier.
 """
