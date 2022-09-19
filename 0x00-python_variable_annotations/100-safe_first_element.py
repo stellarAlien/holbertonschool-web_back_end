@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """_summary_
-    insert right annotations
 """
-from typing import TypeVar, Union, NoReturn
+from types import NoneType
+from typing import Union, Any, Sequence
 
 
-def safely_get_value(dct: dict, key:str, default: Union[TypeVar,NoReturn] = None) -> Union[TypeVar,NoReturn]:
-    if key in dct:
-        return dct[key]
+    if lst:
+        return lst[0]
     else:
-        return default
+        return None

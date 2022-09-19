@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """_summary_
-    annotate and assign variables
+annotate and assign variables
 """
 a: int = 1
 pi: float = 3.14
