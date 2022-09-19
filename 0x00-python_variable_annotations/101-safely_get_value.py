@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """_summary_
-	insert right annotations
+insert right annotations
 """
-from typing import TypeVar, Union, NoReturn
+
+from typing import Any, TypeVar, Union, NoReturn, Mapping
+# https://stackoverflow.com/questions/58755948/what-is-the-difference-between-typevar-and-newtype
+
+T = TypeVar('T')
 
 
-def safely_get_value(dct: dict, key:str, default: Union[TypeVar,NoReturn] = None) -> Union[TypeVar,NoReturn]:
-	if key in dct:
-		return dct[key]
-	else:
-		return default
+def safely_get_value(dct: Mapping, key: Any,
+                     default: Union[T, None]
+                     = None) -> Union[Any, T]:
+    if key in dct:
+        return dct[key]
+    else:
+        return default
