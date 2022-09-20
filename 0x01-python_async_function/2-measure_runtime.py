@@ -10,7 +10,7 @@ wait_n = __import__('1-concurrent_coroutines').wait_n
 
 
 def measure_time(n: int, max_delay: int) -> float:
-    t_time = 0
+    t_time = 0.0
     s_time = time.perf_counter()
     asyncio.run(wait_n(n, max_delay))
     t_time = time.perf_counter() - s_time
