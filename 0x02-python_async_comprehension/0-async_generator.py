@@ -9,7 +9,7 @@ from types import NoneType
 from typing import Generator
 
 
-async def async_generator() -> Generator[float, NoneType, NoneType]:
+async def async_generator() -> Generator[float, None, None]:
     '''yield numbers asynchronously'''
     for _ in range(10):
         # https://splunktool.com/why-does-asynciosleep0-make-my-code-faster
