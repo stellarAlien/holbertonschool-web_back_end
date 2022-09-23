@@ -12,6 +12,7 @@ class MRUCache(BaseCaching):
     def __init__(self) -> None:
         super().__init__()
         self.cache_data = OrderedDict()
+
     def put(self, key, item):
         '''put wit h mru method'''
         if(not key or not item):
