@@ -26,12 +26,12 @@ class LRUCache(BaseCaching):
             self.cache_data.move_to_end(key)
 
     def get(self, key):
-        '''get method with tracking'''
+        '''get method WITH OrderedDict MECHANIC'''
         if (not key):
             return
         try:
             r = self.cache_data.get(key)
-            self.cache_keys.move_to_end(key)
+            self.cache_data.move_to_end(key)
             return r
         except Exception:
             return
