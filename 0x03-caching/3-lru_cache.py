@@ -11,12 +11,13 @@ class LRUCache(BaseCaching):
     '''LRU method'''
 
     def __init__(self) -> None:
+        '''init method takes no arguments'''
         super().__init__()
         self.cache_data = OrderedDict()
 
     def put(self, key, value):
         '''put method of LRU strategy'''
-        if(not key):
+        if(not key or not value):
             return
         self.cache_data[key] = value
         if(len(self.cache_data.keys()) > BaseCaching.MAX_ITEMS):
