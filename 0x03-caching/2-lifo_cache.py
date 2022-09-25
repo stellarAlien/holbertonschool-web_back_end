@@ -15,7 +15,7 @@ class LIFOCache(BaseCaching):
         '''put method takes key, value'''
         if(not key or not value):
             return
-        if(len(self.cache_data.keys()) > BaseCaching.MAX_ITEMS):
+        if(len(self.cache_data.keys()) == BaseCaching.MAX_ITEMS):
             r = sorted(self.cache_data.keys())[-1]
             del self.cache_data[r]
             print('Discard: {}'.format(r))
