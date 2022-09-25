@@ -19,11 +19,11 @@ class LRUCache(BaseCaching):
         '''put method of LRU strategy'''
         if(not key or not value):
             return
-        self.cache_data[key] = value
         if(len(self.cache_data.keys()) == BaseCaching.MAX_ITEMS):
             k = self.cache_data.popitem(last=False)[0]
             print('DISCARD: {}'.format(k))
             self.cache_data.move_to_end(key)
+        self.cache_data[key] = value
 
     def get(self, key):
         '''get method WITH OrderedDict MECHANIC'''
