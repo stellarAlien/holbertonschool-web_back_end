@@ -39,6 +39,6 @@ class Server:
         assert isinstance(page_size, int) and page_size > 0
         start_idx, en_idx = index_range(page, page_size)
         l_ds = len(self.__dataset)
-        if(start_idx > l_ds or en_idx > l_ds):
+        if(start_idx > l_ds):
             return []
         return self.__dataset[start_idx:en_idx]
