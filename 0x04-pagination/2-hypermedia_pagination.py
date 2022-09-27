@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+
+'''
+module for returning pâage state
+'''
 import csv
 import math
 from typing import Dict, List
