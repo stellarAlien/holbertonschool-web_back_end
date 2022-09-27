@@ -52,6 +52,6 @@ class Server:
         d["page"] = page
         d["data"] = r
         d["next_page"] = page + 1 if page + 1 <= t_p else None
-        d["prev_page"] = page - 1 if page - 1 > 0 else None
+        d["prev_page"] = page - 1 if page - 1 > 1 else None
         d["total_page"] = t_p
         return d
