@@ -38,4 +38,7 @@ class Server:
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
         start_idx, en_idx = index_range(page, page_size)
+        l_ds = len(ds)
+        if(start_idx > l_ds or en_idx > l_ds):
+            return []
         return ds[start_idx:en_idx]
