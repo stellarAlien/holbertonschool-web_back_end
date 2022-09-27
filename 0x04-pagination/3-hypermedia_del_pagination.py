@@ -43,7 +43,7 @@ class Server:
         '''hyper index function'''
         d = dict()
         self.indexed_dataset()
-        assert isinstance(index, int) and  index < len(self.__indexed_dataset)
+        assert isinstance(index, int) and index < len(self.__indexed_dataset)
         data = []
         next_index = index + page_size
         d["index"] = index
