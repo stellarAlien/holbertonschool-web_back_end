@@ -47,7 +47,7 @@ class Server:
         next_index = index + page_size
         d["index"] = index
         for i in range(index, next_index):
-            if not self.__indexed_dataset.get(i):
+            if not self.__indexed_dataset.get(i - 1):
                 i += 1
                 next_index += 1
             data.append(self.__indexed_dataset.get(i))
