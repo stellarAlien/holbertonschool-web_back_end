@@ -50,7 +50,7 @@ class Server:
             if not self.__indexed_dataset.get(i - 1):
                 i += 1
                 next_index += 1
-            data.append(self.__indexed_dataset.get(i))
+            data.append(self.__indexed_dataset.get(i - 1))
         d["data"] = data
         d["page_size"] = page_size
         d["next_index"] = next_index
