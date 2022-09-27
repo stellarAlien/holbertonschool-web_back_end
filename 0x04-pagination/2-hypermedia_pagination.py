@@ -49,6 +49,7 @@ class Server:
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         '''return page info and data'''
+        asser isinstance()
         r = self.get_page(page, page_size)
         t_p = math.ceil(len(self.__dataset) / page_size)
         d = dict()
