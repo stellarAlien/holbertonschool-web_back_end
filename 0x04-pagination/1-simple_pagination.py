@@ -32,13 +32,13 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         '''return  list of rows'''
-        ds = self.dataset()
-        if ds is None:
+        self.dataset()
+        if self.__dataset is None:
             return []
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
         start_idx, en_idx = index_range(page, page_size)
-        l_ds = len(ds)
+        l_ds = len(self.__dataset)
         if(start_idx > l_ds or en_idx > l_ds):
             return []
-        return ds[start_idx:en_idx]
+        return self.__dataset[start_idx:en_idx]
