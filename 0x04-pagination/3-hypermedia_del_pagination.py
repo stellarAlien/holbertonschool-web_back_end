@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#!/usr/bin/env python3
 """
 Deletion-resilient hypermedia pagination
 """
@@ -41,18 +40,19 @@ class Server:
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict:
-            d= dict()
-            self.indexed_dataset()
-            data = []
-            next_index = index + page_size
-            d["index"] = index
-            for i in range(index, next_index):
-                if not self.__indexed_dataset.get(i):
-                     i += 1
-                     next_index += 1
-                data.append(self.__indexed_dataset.get(i))
-            d["data"] = data
-            d["page_size"] = page_size
-            d["next_index"] = next_index
-            
-            return d
+        d = dict()
+        self.indexed_dataset()
+        assert isinstance(index, int) and  index < len(self.__indexed_dataset)
+        data = []
+        next_index = index + page_size
+        d["index"] = index
+        for i in range(index, next_index):
+            if not self.__indexed_dataset.get(i):
+                i += 1
+                next_index += 1
+            data.append(self.__indexed_dataset.get(i))
+        d["data"] = data
+        d["page_size"] = page_size
+        d["next_index"] = next_index
+
+        return d
