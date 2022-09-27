@@ -32,6 +32,8 @@ class Server:
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
         '''return  list of rows(lsits)'''
-        assert page > 0 and page_size > 0
+        ds = __class__.dataset(self)
+        assert isinstance(page, int) and page > 0
+        assert isinstance(page_size, int) and page_size > 0
         start_idx, en_idx = index_range(page, page_size)
-        return __class__.dataset(self)[start_idx: en_idx]
+        return ds[start_idx:en_idx]
