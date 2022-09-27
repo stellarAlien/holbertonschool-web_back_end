@@ -52,7 +52,7 @@ class Server:
         r = self.get_page(page, page_size)
         t_p = math.ceil(len(self.__dataset) / page_size)
         d = dict()
-        d["page_size"] = page_size
+        d["page_size"] = len(self.get_page(page, page_size))
         d["page"] = page
         d["data"] = r
         d["next_page"] = page + 1 if page + 1 < t_p else None
