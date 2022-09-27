@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+'''
+module of range_index
+'''
+
 import csv
 import math
 from typing import List
@@ -37,8 +42,7 @@ class Server:
             return []
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
-        start_idx, en_idx = index_range(page, page_size)
-        l_ds = len(self.__dataset)
-        if(start_idx > l_ds):
+        start_index, end_index = index_range(page, page_size)
+        if(start_index > start_index):
             return []
-        return self.__dataset[start_idx:en_idx]
+        return self.__dataset[start_index:end_index]
