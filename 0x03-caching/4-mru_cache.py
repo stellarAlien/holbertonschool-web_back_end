@@ -4,11 +4,12 @@ module with most frequently  used cache
 '''
 from collections import OrderedDict
 
-from base_caching import  BaseCaching
+from base_caching import BaseCaching
+
 
 class MRUCache(BaseCaching):
     '''Most recently used'''
-    
+
     def __init__(self) -> None:
         super().__init__()
         self.cache_data = OrderedDict()
@@ -23,7 +24,7 @@ class MRUCache(BaseCaching):
             print('DISCARD: {}'.format(k))
             self.cache_data.move_to_end(key, last=False)
 
-    def get(self, key) :
+    def get(self, key):
         '''get method WITH OrderedDict MECHANIC'''
         if (not key):
             return
