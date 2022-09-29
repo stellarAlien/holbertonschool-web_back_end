@@ -9,6 +9,7 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 class MRUCache(BaseCaching):
     '''Most recently used'''
+    
     def __init__(self) -> None:
         super().__init__()
         self.cache_data = OrderedDict()
@@ -22,8 +23,7 @@ class MRUCache(BaseCaching):
             k = self.cache_data.popitem(last=False)[0]
             print('DISCARD: {}'.format(k))
             self.cache_data.move_to_end(key, last=False)
-            
-        
+
     def get(self, key):
         '''get method WITH OrderedDict MECHANIC'''
         if (not key):
