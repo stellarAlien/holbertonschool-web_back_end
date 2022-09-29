@@ -22,7 +22,6 @@ class LRUCache(BaseCaching):
         if(len(self.cache_data.keys()) == BaseCaching.MAX_ITEMS):
             k = self.cache_data.popitem(last=False)[0]
             print('DISCARD: {}'.format(k))
-            self.cache_data.move_to_end(key)
         self.cache_data[key] = value
 
     def get(self, key):
