@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 '''
-module with least recently used cache
+module with most frequently  used cache
 '''
 from collections import OrderedDict
 
-BaseCaching = __import__('base_caching').BaseCaching
-
+from base_caching import  BaseCaching
 
 class MRUCache(BaseCaching):
     '''Most recently used'''
@@ -14,8 +13,8 @@ class MRUCache(BaseCaching):
         super().__init__()
         self.cache_data = OrderedDict()
 
-    def put(self, key, item):
-        '''put wit h mru method'''
+    def put(self, key, item) -> None:
+        '''put with mru method'''
         if(not key or not item):
             return
         self.cache_data[key] = item
@@ -24,7 +23,7 @@ class MRUCache(BaseCaching):
             print('DISCARD: {}'.format(k))
             self.cache_data.move_to_end(key, last=False)
 
-    def get(self, key):
+    def get(self, key) :
         '''get method WITH OrderedDict MECHANIC'''
         if (not key):
             return
