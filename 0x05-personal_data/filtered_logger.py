@@ -4,18 +4,10 @@ filtered logger module
 """
 
 import re
-import sre_parse
 
 
 def filter_datum(fields, redaction, message, separator) -> str:
     '''obfuscates log messages'''
-    r = ''
-    for msg in message.split(";"):
-        param = msg.split("=")
-        if param[0] in fields:
-            param[1] = re.sub(str(param[1]), redaction, param[1])
-            r += param[0] + "=" + param[1] + separator
-            continue
-        r = r + msg + separator
-    r = r[:-1]
-    return r
+    for field in fields:
+        message = re.sub(f"{field}=(.*?;)",f"{field}={redaction}{separator}", message)
+    return message
