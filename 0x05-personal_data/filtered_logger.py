@@ -4,6 +4,7 @@ filtered logger module
 """
 
 import re
+import sre_parse
 
 
 def filter_datum(fields, redaction, message, separator) -> str:
@@ -16,4 +17,5 @@ def filter_datum(fields, redaction, message, separator) -> str:
             r += param[0] + "=" + param[1] + separator
             continue
         r = r + msg + separator
+    r = r[:-1]
     return r
