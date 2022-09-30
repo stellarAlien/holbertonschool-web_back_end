@@ -2,6 +2,7 @@
 """
 filtered logger module
 """
+from distutils.log import info
 import logging
 import re
 from typing import List
@@ -29,3 +30,13 @@ class RedactingFormatter(logging.Formatter):
         for field in fields:
             message = re.sub(f"{field}=(.*?;)",f"{field}={redaction}{separator}", message)
         return message
+    
+    def get_logger() ->  logging.Logger:
+        ''''''
+        user_data = logging.getLogger("user_data")
+        user_data.setLevel(logging.INFO)
+        sh = logging.StreamHandler(logging.INFO)
+        sh.setFormatter(RedactingFormatter)
+        user_data.add
+        PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
+        
