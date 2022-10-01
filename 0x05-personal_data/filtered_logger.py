@@ -1,18 +1,17 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """
 filtered logger module
 """
-from distutils.log import info
 import logging
 import re
 from typing import List
 
 
+PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
-
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
@@ -31,12 +30,13 @@ class RedactingFormatter(logging.Formatter):
             message = re.sub(f"{field}=(.*?;)",f"{field}={redaction}{separator}", message)
         return message
     
-    def get_logger() ->  logging.Logger:
-        ''''''
-        user_data = logging.getLogger("user_data")
-        user_data.setLevel(logging.INFO)
-        sh = logging.StreamHandler(logging.INFO)
-        sh.setFormatter(RedactingFormatter)
-        user_data.add
-        PII_FIELDS = ('email', 'phone', 'ssn', 'password', 'ip')
-        
+def get_logger(self) -> logging.Logger:
+    '''
+    return a logging.logger instance
+    '''
+    user_data = logging.getLogger("user_data")
+    user_data.setLevel(logging.INFO)
+    sh = logging.StreamHandler(logging.INFO)
+    sh.setFormatter(RedactingFormatter(self.PII_FIELDS))
+    user_data.addHandler(sh)
+    return user_data
