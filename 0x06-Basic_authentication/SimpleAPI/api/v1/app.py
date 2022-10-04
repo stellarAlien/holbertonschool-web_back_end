@@ -15,16 +15,17 @@ CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 auth = None
 auth = getenv('AUTH_TYPE')
 
-if auth  == 'auth':
+if auth == 'auth':
     from api.v1.auth.auth import Auth
     auth = Auth()
-if auth =='basic_auth':
+if auth == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """ 
+    """
     Not found handler
     """
     return jsonify({"error": "Not found"}), 404
@@ -32,7 +33,8 @@ def not_found(error) -> str:
 
 @app.errorhandler(401)
 def not_authorized(error):
-    return  jsonify({"error": "Unauthorized"}) , 401
+    return jsonify({"error": "Unauthorized"}), 401
+
 
 @app.errorhandler(403)
 def forbidden_status(error):
@@ -45,14 +47,15 @@ def before_request():
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
-                                        '/api/v1/unauthorized/',
-                                        '/api/v1/forbidden/']):
+                                            '/api/v1/unauthorized/',
+                                            '/api/v1/forbidden/']):
         return
-    if auth.authorization_header(request) == None:
+    if auth.authorization_header(request) is None:
         abort(401)
         return
-    if auth.current_user(request) == None:
+    if auth.current_user(request) is None:
         abort(403)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
