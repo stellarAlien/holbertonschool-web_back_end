@@ -1,17 +1,19 @@
-#!usr/bin/env python3
+#!/usr/bin/env python3
 """
 filtered logger module
 """
 import logging
 import re
 from typing import List
+import mysql.connector
+from os import environ
 
 
+PII_FIELDS = ('name', 'email', 'phone', 'ssn', 'password')
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
-
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
@@ -29,3 +31,38 @@ class RedactingFormatter(logging.Formatter):
         for field in fields:
             message = re.sub(f"{field}=(.*?;)",f"{field}={redaction}{separator}", message)
         return message
+    
+def get_logger(self) -> logging.Logger:
+    '''
+    return a logging.logger instance
+    '''
+    user_data = logging.getLogger("user_data")
+    user_data.setLevel(logging.INFO)
+    sh = logging.StreamHandler(logging.INFO)
+    sh.setFormatter(RedactingFormatter(self.PII_FIELDS))
+    user_data.addHandler(sh)
+    return user_data
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    '''connect to db unsig envrion vars'''
+    uname = environ.get('PERSONAL_DATA_DB_USERNAME', 'root')
+    password = environ.get('PERSONAL_DATA_DB_PASSWORD', '')
+    host = environ.get('PERSONAL_DATA_DB_HOST', "localhost")
+    db_name = environ.get('PERSONAL_DATA_DB_NAME', 'holberton')
+    session = mysql.connector.connect(user=uname, password=password,
+                               host=host, database=db_name)
+    return session
+def main() -> None:
+    ''''''
+    session = get_db()
+    cur = session.cursor()
+    q = "SELECT * FROM users"
+    data = cur.execute(q)
+    formatter = RedactingFormatter()
+    for line in cur.fetchall():
+        formatter.filter_datum(line)
+    cur.close()
+    session.close()
+    
+if __name__ =="__main__":
+    main()
