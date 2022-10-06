@@ -1,1 +1,1 @@
-# 0x06-Basic_authentication
+# 0x07-Session_authentication
