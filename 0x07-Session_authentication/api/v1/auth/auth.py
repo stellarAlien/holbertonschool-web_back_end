@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-
+'''
+auth original class
+'''
 from flask import request
 from typing import List, TypeVar
 import os
