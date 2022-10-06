@@ -39,7 +39,17 @@ def login():
 
     user = found_users[0]
     new_session = auth.create_session(user.id)
-    SESSION_NAME = getenv("SESSION_NAME")
+    SESSION_NAME = os.getenv("SESSION_NAME")
     response = jsonify(user.to_json())
     response.set_cookie(SESSION_NAME, new_session)
     return response
+
+@app_views.route('/api/v1/auth_session/logout', methods=["DELETE"], strict_slashes=False)
+def logout():
+    '''delete session attached to request'''
+    from api.v1.app import auth
+    destroyed_sess = auth.destory_session(request)
+    if destroyed_sess:
+        return jsonify({}), 200
+    return False, abort(404)
+    
