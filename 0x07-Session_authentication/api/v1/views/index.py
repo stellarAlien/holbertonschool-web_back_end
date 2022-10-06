@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+'''
+module for different views
+'''
 from flask import jsonify, abort
 from api.v1.views import app_views
 from models.user import User
