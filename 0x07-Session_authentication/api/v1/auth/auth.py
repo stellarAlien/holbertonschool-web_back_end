@@ -35,7 +35,7 @@ class Auth():
         '''check if current user is ...'''
         return
 
-    def session_cookie(self, request=None) -> None:
+    def session_cookie(self, request=None):
         '''return cookie from request'''
         if not request:
             return None
