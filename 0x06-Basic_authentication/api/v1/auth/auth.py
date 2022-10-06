@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+'''
+Moduel for base class of Auth
+'''
 from flask import request
 from typing import List, TypeVar
 

@@ -25,14 +25,13 @@ if auth == 'basic_auth':
 
 @app.errorhandler(404)
 def not_found(error) -> str:
-    """
-    Not found handler
-    """
+    '''handle abort 404'''
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
 def not_authorized(error):
+    '''handle not authorized error'''
     return jsonify({"error": "Unauthorized"}), 401
 
 
@@ -44,6 +43,7 @@ def forbidden_status(error):
 
 @app.before_request
 def before_request():
+    '''hanlde this before every request'''
     if auth is None:
         return
     if not auth.require_auth(request.path, ['/api/v1/status/',
@@ -59,6 +59,7 @@ def before_request():
 
 
 if __name__ == "__main__":
+    '''main code for app'''
     host = getenv("API_HOST", "0.0.0.0")
     port = getenv("API_PORT", "5000")
     app.run(host=host, port=port, debug=True)
