@@ -19,7 +19,7 @@ if auth == 'auth':
     auth = Auth()
 if auth == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
-    auth = SessionAuth()  
+    auth = SessionAuth()
 if auth == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
@@ -58,9 +58,8 @@ def before_request():
         abort(401)
         return
     request.current_user = auth.current_user(request)
-    if  request.current_user is None:
+    if request.current_user is None:
         abort(403)
-  
 
 
 if __name__ == "__main__":
