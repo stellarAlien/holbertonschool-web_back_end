@@ -44,7 +44,9 @@ def login():
     response.set_cookie(SESSION_NAME, new_session)
     return response
 
-@app_views.route('/api/v1/auth_session/logout', methods=["DELETE"], strict_slashes=False)
+
+@app_views.route('/api/v1/auth_session/logout', methods=["DELETE"],
+                 strict_slashes=False)
 def logout():
     '''delete session attached to request'''
     from api.v1.app import auth
@@ -52,4 +54,3 @@ def logout():
     if destroyed_sess:
         return jsonify({}), 200
     return False, abort(404)
-    
