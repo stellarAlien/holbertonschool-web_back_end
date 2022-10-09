@@ -33,7 +33,9 @@ def login():
 
     for user in found_users:
         if not user.is_valid_password(password):
+            print("password")
             return jsonify({"error": "wrong password"}), 401
+
     from api.v1.app import auth
     
     new_session = auth.create_session(user.id)

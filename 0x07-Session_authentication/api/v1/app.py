@@ -26,7 +26,9 @@ if auth == 'session_auth':
 if auth == 'basic_auth':
     from api.v1.auth.basic_auth import BasicAuth
     auth = BasicAuth()
-
+if auth == 'session_exp_auth':
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
 
 @app.errorhandler(404)
 def not_found(error) -> str:
