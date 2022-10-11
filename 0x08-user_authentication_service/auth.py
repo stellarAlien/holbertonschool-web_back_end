@@ -3,6 +3,7 @@
 implement password security
 '''
 
+from uuid import uuid4
 import bcrypt
 from db import DB
 from user import User
@@ -12,6 +13,10 @@ def _hash_password(password: str) -> bytes:
     '''returns salted hash of password'''
     p = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
     return p
+
+def _generate_uuid() -> uuid4:
+        '''generate uuid4'''
+        return str(uuid4())
 
 class Auth:
     """Auth class to interact with the authentication database.
@@ -42,6 +47,62 @@ class Auth:
             return False
         
         return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
+
+
+    def create_session(self, email):
+        '''assign zsessiohn_id to user'''
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return None
+
+        self._db.update_user(user.id, session_id=_generate_uuid())
+        return user.session_id
         
+    def get_user_from_session_id(self, session_id):
+        '''get user from session id '''
+
+        if not session_id:
+            return
+
+        try:
+            user = self._db.find_user_by(session_id=session_id)
+        except NoResultFound:
+            return
         
+        return user
+    
+    def destory_session(self, user_id):
+        '''destroy session by user_id'''
+        if not user_id:
+            return
+        try:
+            user = self._db.find_user_by(user_id=user_id)
+        except NoResultFound:
+            return
+        self._db.update_user(user_id=user_id, session_id=None)
+        return
+    
+    def get_reset_password_token(self, email):
+        '''password reset'''
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            raise ValueError
         
+        _new_token = _generate_uuid()
+        self._db.update_user(user.id, reset_token=_new_token)
+        return _new_token
+    
+    def update_password(self, reset_token, password):
+        '''update password if token is valid'''
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+
+        password = _hash_password(password)
+
+        self._db.update_user(user, hashed_password=password, reset_token=None)
+
+        return
