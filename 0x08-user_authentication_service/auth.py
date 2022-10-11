@@ -32,3 +32,16 @@ class Auth:
 
         return user
         
+    def valid_login(self, email, password) -> bool:
+        '''validate credentials'''
+        if not email or not password:
+            return False
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return False
+        
+        return bcrypt.checkpw(password.encode('utf-8'), user.hashed_password)
+        
+        
+        
