@@ -1,73 +1,57 @@
 #!/usr/bin/env python3
-"""DB module
-"""
-from sqlalchemy import create_engine, insert
+""" Database for ORM """
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import NoResultFound, InvalidRequestError
-from sqlalchemy.orm.session import Session
-from user import User
-
-from user import Base
+from sqlalchemy.exc import InvalidRequestError
+from sqlalchemy.orm.exc import NoResultFound
+from typing import TypeVar
+from user import Base, User
 
 
 class DB:
-    """DB class
-    """
+    """ DB Class for Object Reational Mapping """
 
-    def __init__(self) -> None:
-        """Initialize a new DB instance
-        """
-        self._engine = create_engine("sqlite:///a.db", echo=True)
+    def __init__(self):
+        """ Constructor Method """
+        self._engine = create_engine("sqlite:///a.db", echo=False)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
         self.__session = None
 
     @property
-    def _session(self) -> Session:
-        """Memoized session object
-        """
+    def _session(self):
+        """ Session Getter Method """
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
-    def add_user(self, email=None, hashed_password=None) -> User:
-        '''add user with no validation'''
-        if not email or not hashed_password:
-            return
-        user = User(email = email, hashed_password= hashed_password)
+
+    def add_user(self, email: str, hashed_password: str) -> User:
+        """ Adds user to database
+        Return: User Object
+        """
+        user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
-        # self._session.refresh()
-   
+
         return user
-    
-    def find_user_by(self, **kwargs):
-        '''find user by'''
-        # one() raises sqlalchemy.orm.exc.NoResultFound
-        # exception if no result is found or many are found
+
+    def find_user_by(self, **kwargs) -> User:
+        """ Finds user by key word args
+        Return: First row found in the users table as filtered by kwargs
+        """
         if not kwargs:
             raise InvalidRequestError
+
+        column_names = User.__table__.columns.keys()
         for key in kwargs.keys():
-            if  not key in User.__table__.columns.keys():
+            if not key  in column_names:
                 raise InvalidRequestError
-        try:
-            user = self._session.query(User).filter_by(**kwargs).first()
-            # one() cause error becasue it required a row
-            return user
-        except (NoResultFound, InvalidRequestError) as e:
-            raise e
-    
-    def update_user(self, user_id=None, **kwargs) -> None:
-        '''update user row'''
 
-        user = self.find_user_by(id= user_id)
-        for arg in kwargs.keys():
-            if not arg in user.__table__.columns.keys():
-                raise ValueError
+        user = self._session.query(User).filter_by(**kwargs).first()
 
-        for k,v in kwargs.items():    
-            setattr(user, k, v)
+        if user is None:
+            raise NoResultFound
 
-        self._session.commit()
+        return user

@@ -6,6 +6,7 @@ implement password security
 import bcrypt
 from db import DB
 from user import User
+from sqlalchemy.orm.exc import NoResultFound
 
 def _hash_password(password: str) -> bytes:
     '''returns salted hash of password'''
@@ -21,15 +22,13 @@ class Auth:
     
     def register_user(self, email=None, password=None) -> User:
         '''register user if not already registered'''
-        kwargs = {'email': email}
-        user = self._db.find_user_by(**kwargs)
-        if not user:
-            raise ValueError('User {:s} already exists'.format(email))
-            
-        h_p = _hash_password(password)
-        setattr(user, 'hashed_password', h_p)
-
-        self._db.commit()
+        try:
+            user = self._db.find_user_by(email=email)
+            if  user:
+                raise ValueError('User {:s} already exists'.format(email))
+        except NoResultFound:       
+            h_p = _hash_password(password)
+            user = self._db.add_user(email, h_p)
 
         return user
         
