@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 '''
-
+model for user profiles
 '''
 
 from sqlalchemy import Column, Integer, String
