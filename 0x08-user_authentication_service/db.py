@@ -56,11 +56,11 @@ class DB:
 
         return user
 
-    def update_user(self, user_id=None, **kwargs) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         '''update user row'''
         try:
             user = self.find_user_by(id=user_id)
-        except Exception:
+        except Exception as e:
             raise NoResultFound
         for arg in kwargs.keys():
             if arg not in User.__table__.columns.keys():
@@ -70,3 +70,4 @@ class DB:
             setattr(user, k, v)
 
         self._session.commit()
+
