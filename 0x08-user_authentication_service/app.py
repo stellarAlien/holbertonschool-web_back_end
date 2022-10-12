@@ -30,7 +30,7 @@ def users():
 
 
 @app.route("/sessions", methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     '''log in function'''
     try:
         email = request.form['email']
