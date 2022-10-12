@@ -7,7 +7,7 @@ from uuid import uuid4
 import bcrypt
 from db import DB
 from user import User
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 
 
 def _hash_password(password: str) -> bytes:
@@ -16,7 +16,7 @@ def _hash_password(password: str) -> bytes:
     return p
 
 
-def _generate_uuid() -> str:
+def _generate_uuid() -> uuid4:
     '''generate uuid4'''
     return str(uuid4())
 
@@ -95,7 +95,7 @@ class Auth:
         self._db.update_user(user.id, reset_token=_new_token)
         return _new_token
 
-    def update_password(self, reset_token, password) -> None:
+    def update_password(self, reset_token, password):
         '''update password if token is valid'''
         try:
             user = self._db.find_user_by(reset_token=reset_token)

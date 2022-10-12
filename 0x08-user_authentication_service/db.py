@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound
 from typing import TypeVar
 from user import Base, User
 
@@ -56,9 +56,12 @@ class DB:
 
         return user
 
-    def update_user(self, user_id: int, **kwargs) -> None:
+    def update_user(self, user_id:int , **kwargs) -> None:
         '''update user row'''
-        user = self.find_user_by(id=user_id)
+        try:
+            user = self.find_user_by(id=user_id)
+        except Exception as e:
+            raise NoResultFound
         for arg in kwargs.keys():
             if arg not in User.__table__.columns.keys():
                 raise ValueError
@@ -67,3 +70,4 @@ class DB:
             setattr(user, k, v)
 
         self._session.commit()
+
