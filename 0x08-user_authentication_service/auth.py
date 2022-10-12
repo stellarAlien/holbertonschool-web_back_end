@@ -72,12 +72,12 @@ class Auth:
         
         return user
     
-    def destory_session(self, user_id):
+    def destroy_session(self, user_id):
         '''destroy session by user_id'''
         if not user_id:
             return
         try:
-            user = self._db.find_user_by(user_id=user_id)
+            user = self._db.find_user_by(id=user_id)
         except NoResultFound:
             return
         self._db.update_user(user_id=user_id, session_id=None)
@@ -103,6 +103,6 @@ class Auth:
 
         password = _hash_password(password)
 
-        self._db.update_user(user, hashed_password=password, reset_token=None)
+        self._db.update_user(user.id, hashed_password=password, reset_token=None)
 
         return
