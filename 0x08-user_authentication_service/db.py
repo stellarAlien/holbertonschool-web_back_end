@@ -58,7 +58,10 @@ class DB:
 
     def update_user(self, user_id=None, **kwargs) -> None:
         '''update user row'''
-        user = self.find_user_by(id=user_id)
+        try:
+            user = self.find_user_by(id=user_id)
+        except Exception:
+            raise NoResultFound
         for arg in kwargs.keys():
             if arg not in User.__table__.columns.keys():
                 raise ValueError
