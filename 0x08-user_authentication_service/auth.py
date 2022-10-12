@@ -3,7 +3,7 @@
 implement password security
 '''
 
-from uuid import uuid4
+from uuid import uuid1, uuid4
 import bcrypt
 from db import DB
 from user import User
@@ -16,7 +16,7 @@ def _hash_password(password: str) -> bytes:
     return p
 
 
-def _generate_uuid() -> uuid4:
+def _generate_uuid() -> str:
     '''generate uuid4'''
     return str(uuid4())
 
@@ -39,7 +39,7 @@ class Auth:
             user = self._db.add_user(email, h_p)
             return user
 
-    def valid_login(self, email, password) -> bool:
+    def valid_login(self, email: str, password: str) -> bool:
         '''validate credentials'''
         if not email or not password:
             return False
