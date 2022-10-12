@@ -60,7 +60,7 @@ class DB:
         '''update user row'''
         user = self.find_user_by(id=user_id)
         for arg in kwargs.keys():
-            if arg not in user.__table__.columns.keys():
+            if arg not in User.__table__.columns.keys():
                 raise ValueError
 
         for k, v in kwargs.items():
