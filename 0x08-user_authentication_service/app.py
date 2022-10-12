@@ -9,9 +9,11 @@ from sqlalchemy.orm.exc import NoResultFound
 app = Flask(__name__)
 Auth = Auth()
 
+
 @app.route("/", methods=["GET"])
 def get():
     return jsonify({"message": "Bienvenue"})
+
 
 @app.route("/users", methods=['POST'], strict_slashes=False)
 def users():
@@ -24,7 +26,8 @@ def users():
         return jsonify({"message": "email already registered"}), 400
 
     return jsonify({"email": email,
-                        "message": "user created"})
+                    "message": "user created"})
+
 
 @app.route("/sessions", methods=['POST'], strict_slashes=False)
 def login():
@@ -42,6 +45,7 @@ def login():
 
     abort(401)
 
+
 @app.route("/sessions", methods=['DELETE'], strict_slashes=False)
 def logout():
     '''logout view'''
@@ -53,6 +57,7 @@ def logout():
     if user:
         Auth.destroy_session(user.id)
         return redirect('/')
+
 
 @app.route("/profile", methods=['GET'], strict_slashes=False)
 def profile():
@@ -66,6 +71,7 @@ def profile():
         return jsonify({"email": user.email}), 200
     abort(403)
 
+
 @app.route("/reset_password", methods=['POST'], strict_slashes=False)
 def get_reset_password_token():
     '''get reset token from auth module'''
@@ -75,8 +81,9 @@ def get_reset_password_token():
     except NoResultFound:
         abort(403)
     new_token = Auth.get_reset_password_token(email=email)
-    
+
     return jsonify({"email": email, "reset_token": new_token})
+
 
 @app.route("/reset_password", methods=['PUT'], strict_slashes=False)
 def update_password():
@@ -93,4 +100,4 @@ def update_password():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000", debug=True)
+    app.run(host="0.0.0.0", port="5000")

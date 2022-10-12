@@ -10,36 +10,37 @@ from app import *
 
 local_host = 'http://192.168.1.23:5000'
 
+
 def register_user(email: str, password: str) -> None:
     '''register user test'''
 
     with requests.session() as s:
         data = {"email": email, "password": password}
-        r = requests.post( '{:s}/users'.format(local_host), data=data)
+        r = requests.post('{:s}/users'.format(local_host), data=data)
         assert r.status_code == 200
         assert r.json() == {'email': email, 'message': 'user created'}
+
 
 def log_in_wrong_password(email: str, password: str) -> None:
     '''log in with password not in db'''
     data = {"email": email, "password": password}
-    r = requests.post('{:s}/users'.format(local_host), data=data)
+    r = requests.post('{:s}/sessions'.format(local_host), data=data)
 
-    
-    # get back to this later
-    
-    assert r.status_code == 400
+    assert r.status_code == 401
+
 
 def log_in(email: str, password: str) -> str:
     '''log in with valid credentials'''
-    
+
     with requests.session() as s:
         data = {"email": email, "password": password}
-        r = requests.post( '{:s}/sessions'.format(local_host), data=data)
+        r = requests.post('{:s}/sessions'.format(local_host), data=data)
 
         assert r.json() == {"email": email, "message": "logged in"}
-        assert  not r.cookies is None
-        
+        assert r.cookies is not None
+
         return r.cookies.get('session_id')
+
 
 def profile_unlogged() -> None:
     '''log out of session'''
@@ -47,8 +48,8 @@ def profile_unlogged() -> None:
         cookies = {"session_id": ""}
         r = requests.get('{:s}/profile'.format(local_host), cookies=cookies)
 
-
         assert r.status_code == 403
+
 
 def profile_logged(session_id):
     '''check if profile is logged'''
@@ -57,35 +58,34 @@ def profile_logged(session_id):
         r = requests.get('{:s}/profile'.format(local_host), cookies=cookies)
 
         assert r.status_code == 200
-        
+
 
 def log_out(session_id):
     '''log profile out'''
     with requests.session() as s:
         cookies = {"session_id": session_id}
-        r = requests.delete('{:s}/sessions'.format(local_host), cookies=cookies,
-                            allow_redirects=False) # might have to remove
+        r = requests.delete('{:s}/sessions'.format(local_host),
+                            cookies=cookies,
+                            allow_redirects=False)  # might have to remove
 
-           
         assert r.status_code == 302
 
 
 def reset_password_token(email: str) -> str:
     '''get reset token'''
     data = {"email": email}
-    
-    
+
     with requests.session() as s:
         r = requests.post('{:s}/reset_password'.format(local_host), data=data)
-        
 
         assert r.status_code == 200
         reset_token = r.json().get('reset_token')
-        
+
         assert r.json() == {"email": email, "reset_token": reset_token}
-        
+
         return reset_token
-        
+
+
 def update_password(EMAIL, reset_token, NEW_PASSWD):
     '''update password for user'''
     data = {
@@ -96,14 +96,12 @@ def update_password(EMAIL, reset_token, NEW_PASSWD):
 
     with requests.session() as s:
         r = requests.put('{:s}/reset_password'.format(local_host), data=data)
-        
-        assert r.status_code == 200
 
+        assert r.status_code == 200
 
         assert r.json() == {"email": EMAIL, "message": "Password updated"}
 
 
-    
 EMAIL = "guillaume@holberton.io"
 PASSWD = "b4l0u"
 NEW_PASSWD = "t4rt1fl3tt3"

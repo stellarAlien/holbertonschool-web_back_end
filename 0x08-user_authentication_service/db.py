@@ -46,7 +46,7 @@ class DB:
 
         column_names = User.__table__.columns.keys()
         for key in kwargs.keys():
-            if not key  in column_names:
+            if key not in column_names:
                 raise InvalidRequestError
 
         user = self._session.query(User).filter_by(**kwargs).first()
@@ -58,12 +58,12 @@ class DB:
 
     def update_user(self, user_id=None, **kwargs) -> None:
         '''update user row'''
-        user = self.find_user_by(id= user_id)
+        user = self.find_user_by(id=user_id)
         for arg in kwargs.keys():
-            if not arg in user.__table__.columns.keys():
+            if arg not in user.__table__.columns.keys():
                 raise ValueError
 
-        for k,v in kwargs.items():    
+        for k, v in kwargs.items():
             setattr(user, k, v)
 
         self._session.commit()
