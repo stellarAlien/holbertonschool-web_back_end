@@ -32,11 +32,9 @@ def users():
 @app.route("/sessions", methods=['POST'], strict_slashes=False)
 def login() -> str:
     '''log in function'''
-    try:
-        email = request.form.get('email')
-        password = request.form.get('password')
-    except KeyError:
-        abort(400)
+    email = request.form.get('email')
+    password = request.form.get('password')
+
     if Auth.valid_login(email, password):
         sess = Auth.create_session(email)
         resp = make_response({"email": email, "message": "logged in"})
