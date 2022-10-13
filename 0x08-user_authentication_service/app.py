@@ -49,7 +49,7 @@ def logout():
     '''logout view'''
     session = request.cookies.get('session_id')
     try:
-        user = Auth._db.find_user_by(session_id=session)
+        user = Auth.get_user_from_session_id(session_id=session)
     except NoResultFound:
         abort(403)
     if user:
