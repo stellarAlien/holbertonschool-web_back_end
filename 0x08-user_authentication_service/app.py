@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 
-from flask import Flask, jsonify, request, abort, redirect, url_for
+from flask import Flask, jsonify, request, abort, redirect, make_response
 from auth import Auth
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -33,13 +33,13 @@ def users():
 def login() -> str:
     '''log in function'''
     try:
-        email = request.form['email']
-        password = request.form['password']
+        email = request.form.get('email')
+        password = request.form.get('password')
     except KeyError:
         abort(400)
     if Auth.valid_login(email, password):
         sess = Auth.create_session(email)
-        resp = jsonify({"email": email, "message": "logged in"})
+        resp = make_response({"email": email, "message": "logged in"})
         resp.set_cookie('session_id', sess)
         return resp
 
