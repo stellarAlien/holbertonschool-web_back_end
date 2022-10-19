@@ -11,19 +11,16 @@ from parameterized impoert parameterized
 
 
 class TestAccessNestedMap(unittest.TestCase):
-    '''test case for reading mapping functions'''
+    '''test suite for nested map functio,'''
 
-    @parameterized.expand(
-        [
-            ({"a": 1}, ("a"), 1),
-            ({"a": {"b": 2}}, ("a"), '{"b": 2}'),
-            ({"a": {"b": 2}}, ("a", "b"), 2)
-        ]
-    )
+    @parameterized.expand([
+        ({"a": 1}, ("a",), 1),
+        ({"a": {"b": 2}}, ("a",), {'b': 2}),
+        ({"a": {"b": 2}}, ("a", "b"), 2)
+    ])
     def test_access_nested_map(self, nested_map, path, expected):
-        '''test  utils nested map'''
-        v = self.assertEqual(access_nested_map(nested_map, path), expected)
-        return v
+        '''test case for reading mapping functions'''
+        self.assertEqual(access_nested_map(nested_map, path), expected)
 
     @parameterized.expand([
         ({}, ("a"), 'a')
