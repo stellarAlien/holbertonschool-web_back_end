@@ -7,7 +7,7 @@ import logging
 import unittest
 from unittest.mock import patch, Mock, MagicMock
 from utils import access_nested_map, get_json, memoize
-import parameterized
+from parameterized impoert parameterized
 
 
 class TestAccessNestedMap(unittest.TestCase):
