@@ -22,7 +22,7 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_lcoale():
+def get_lcoale()->Union[dict, None] :
     '''locale getter'''
     try:
         locale = request.args.get('locale')
