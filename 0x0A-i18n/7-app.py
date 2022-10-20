@@ -28,7 +28,7 @@ app.config.from_object(Config)
 
 babel = Babel(app)
 
-def get_user():
+def get_user()->Union[dict, None] :
     '''mocking user db'''
     user_id = request.args.get('login_as')
     if user_id and user_id in users.keys():
@@ -36,8 +36,8 @@ def get_user():
     return None
     
 @babel.localeselector
-def get_locale():
-    ''''''
+def get_locale()->str:
+    '''locale getter'''
     locale = request.args.get('locale')
     if locale and locale in Config.LANGUAGES:
         return locale
@@ -69,7 +69,7 @@ def before_request()->Union[dict, None] :
     user = get_user()
     g.user = user
 
-@app.route('/' )
+@app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     '''index render'''
     return render_template('6-index.html')

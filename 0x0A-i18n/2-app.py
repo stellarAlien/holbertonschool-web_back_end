@@ -23,7 +23,7 @@ babel = Babel(app)
 
 @babel.localeselector
 def get_lcoale():
-    ''''''
+    '''locale getter'''
     try:
         locale = request.args.get('locale')
     except Exception:
@@ -32,10 +32,10 @@ def get_lcoale():
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-@app.route('/' )
+@app.route('/', methods=['GET'], strict_slashes=False)
 def index():
     '''index render'''
-    return render_template('4-index.html')
+    return render_template('2-index.html')
 
 
 if __name__ == '__main__':
