@@ -6,11 +6,10 @@ from flask import Flask, request, render_template
 from flask_babel import Babel, gettext
 
 
-
 class Config():
     '''configfor babel instance'''
     LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_TIMEZONE  = 'UTC'
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
     BABEL_DEFAULT_LOCALE = 'en'
 
 
@@ -20,6 +19,7 @@ app.config.from_object(Config)
 
 
 babel = Babel(app)
+
 
 @babel.localeselector
 def get_lcoale():
@@ -32,11 +32,12 @@ def get_lcoale():
         return locale
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
+
 @app.route('/', methods=['GET'], strict_slashes=False)
-def index()->str:
+def index() -> str:
     '''index render'''
     return render_template('4-index.html')
 
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', 5000, debug=True)
+    app.run('0.0.0.0', 5000)
