@@ -4,7 +4,7 @@ flask babel practice
 '''
 from flask import Flask, request, render_template
 from flask_babel import Babel, gettext
-
+from typing import Union
 
 class Config():
     '''configfor babel instance'''
