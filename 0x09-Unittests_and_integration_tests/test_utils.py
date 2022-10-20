@@ -33,20 +33,18 @@ class TestAccessNestedMap(unittest.TestCase):
             access_nested_map(nested_map, path)
         self.assertEqual("KeyError()".format(key), repr(error.exception))
 
-    class TestGetJson(unittest.TestCase):
-        '''test for requests module'''
-        @parameterized.expand([
-            ("http://example.com", {"payload": True}),
-            ("http://holberton.io", {"payload": False})
-        ]
-        )
-        @patch('utils.requests.get')
-        def test_get_json(self, mock_get, test_url, test_payload):
-            '''test get method'''
-
-            mock_get.json.return_value = MagicMock(response=test_payload)
-            self.assertEqual(get_json(test_url), test_payload)
-            mock_get.assert_called_once()
+class TestGetJson(unittest.TestCase):
+    '''mock instance for api request'''
+    @parameterized.expand([
+        ("http://example.com", {"payload": True}),
+        ("http://holberton.io", {"payload": False}),
+    ])
+    @patch('test_utils.get_json')
+    def test_get_json(self, test_url, test_payload, mock_get):
+        '''test'''
+        mock_get.return_value = test_payload
+        result = get_json(test_url)
+        self.assertEqual(result, test_payload)
 
 
 class TestMemoize(unittest.TestCase):

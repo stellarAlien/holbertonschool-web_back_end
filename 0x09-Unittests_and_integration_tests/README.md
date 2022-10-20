@@ -24,3 +24,4 @@ Resources:
 - https://medium.com/geekculture/right-way-to-test-mock-and-patch-in-python-b02138fc5040
 - https://myadventuresincoding.wordpress.com/2011/02/26
 - https://www.fugue.co/blog/2016-02-11-python-mocking-101#:~:text=How%20do%20we%20mock%20in,want%20or%20raise%20an%20Exception%20.
+- https://gist.github.com/igniteflow/1be88c18185ffe42a66a46e48118f486
