@@ -52,8 +52,18 @@ def get_locale():
 
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-
-
+@babel.timezoneselector
+def get_timezone():
+    '''select time zone'''
+    timezone = request.args.get('timezone')
+    if timezone:
+        return pytz.timezone(timezone) 
+    if g.user and g.user.get('timezone'):
+        timezone = g.user.get('timezone')
+        return pytz.timezone(timezone)
+    timezone = app.config['BABEL_DEFAULT_TIMEZONE']
+    return timezone if timezone else 'UTC'
+ 
 @app.before_request
 def before_request()->Union[dict, None] :
     user = get_user()
