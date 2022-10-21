@@ -2,12 +2,13 @@
 '''
 flask babel practice
 '''
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET'], strict_slashes=False)
-def index()->str:
+def index() -> str:
     '''index render'''
     rerturn render_template('0-index.html')
 
