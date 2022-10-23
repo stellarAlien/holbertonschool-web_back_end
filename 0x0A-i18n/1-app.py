@@ -6,6 +6,7 @@ from flask import Flask, request, render_template
 from flask_babel import Babel, gettext
 from typing import Union
 
+
 class Config():
     '''configfor babel instance'''
     LANGUAGES = ["en", "fr"]
@@ -22,8 +23,10 @@ babel = Babel(app)
 
 
 @babel.localeselector
-def get_lcoale()->Union[dict, None] :
-    '''locale getter'''
+def get_lcoale() -> Union[dict, None]:
+    '''locale getter
+        that gets params from config class
+        in this file'''
     try:
         locale = request.args.get('locale')
     except Exception:
@@ -36,7 +39,7 @@ def get_lcoale()->Union[dict, None] :
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index() -> str:
     '''index render'''
-    return render_template('4-index.html')
+    return render_template('1-index.html')
 
 
 if __name__ == '__main__':
