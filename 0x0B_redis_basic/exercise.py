@@ -51,7 +51,8 @@ class Cache():
 
     @count_calls
     @call_history
-    def store(self, data: Union[str, bytes, int, float]) -> str:
+    def store(self, data:
+              Union[str, bytes, int, float]) -> str:
         """store random key in db"""
         key = str(uuid.uuid4())
         self._redis.set(key, data)
@@ -69,14 +70,12 @@ class Cache():
 
     def get_str(self, key):
         """call get with str function"""
-        return self.get(key, str).decode("utf-8")
+        return self.get(key, str)
 
     def get_int(self, key):
         """exec get with int conversion"""
         value = self.get(key)
         try:
-            value = int(value.decode("utf-8"))
+            value = int(value)
         except Exception:
             return
-    
-        
