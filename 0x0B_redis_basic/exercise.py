@@ -47,7 +47,7 @@ class Cache():
         self._redis.set(key, data)
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = str):
+    def get(self, key: str, fn: Optional[Callable] = None):
         '''get stored value'''
         # if not self._redis.exists(key) :
         # return
