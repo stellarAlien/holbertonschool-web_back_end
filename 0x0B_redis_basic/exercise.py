@@ -22,15 +22,15 @@ def call_history(method: Callable) -> Callable:
     return save_io
 
 
-def count_calls(fn):
-    @wraps(fn)
-    def wrapper(*args):
-        ''''''
-        args[0]._redis.incr(fn.__qualname__)
-        return fn(*args)
+def count_calls(method: Callable) -> Callable:
+    @wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """increment counter for calling funciton in redis cache"""
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
     return wrapper
 
-
+  
 class Cache():
     '''cache that is linked to a db'''
 
