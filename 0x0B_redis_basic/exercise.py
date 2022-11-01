@@ -48,9 +48,7 @@ class Cache():
         return key
 
     def get(self, key: str, fn: Optional[Callable] = None):
-        '''get stored value'''
-        # if not self._redis.exists(key) :
-        # return
+        """documentation for get funcion that uses conversion"""
         if not fn:
             value = self._redis.get(key)
         else:
