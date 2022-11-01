@@ -62,8 +62,10 @@ class Cache():
         if not fn:
             value = self._redis.get(key)
         else:
-            value = fn(self._redis.get(key))
-        return value            
+            value = self._redis.get(key)
+            # while testing in the ipython cli this seems to work
+            value = fn(value)
+        return value
 
     def get_str(self, key):
         """call get with str function"""
