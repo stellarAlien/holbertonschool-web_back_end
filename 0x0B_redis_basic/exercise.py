@@ -2,7 +2,7 @@
 
 
 from functools import wraps
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Union
 import redis
 import uuid
 
@@ -41,11 +41,9 @@ class Cache():
 
     @count_calls
     @call_history
-    def store(self, data: Any) -> str:
+    def store(self, data: Union[str, bytes, int, float]) -> str:
         '''store random key in db'''
         key = str(uuid.uuid4())
-        if self._redis.exists(key):
-            return
         self._redis.set(key, data)
         return key
 
