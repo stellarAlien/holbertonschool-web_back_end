@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-
 import uuid
 from functools import wraps
 from typing import Callable, Optional, Union
 import redis
 
 
-# count = {}
 def call_history(method: Callable) -> Callable:
     @wraps(method)
     def save_io(self, *args):
@@ -42,17 +40,16 @@ def replay(fn: Callable) -> None:
 
 
 class Cache():
-    '''cache that is linked to a db'''
-
+    """cache that is linked to a db"""
     def __init__(self) -> None:
-        '''init db'''
+        """init redis cache"""
         self._redis = redis.Redis()
         self._redis.flushdb()
 
     @count_calls
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        '''store random key in db'''
+        """store random key in db"""
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
@@ -66,9 +63,9 @@ class Cache():
         return value
 
     def get_str(self, key):
-        '''call get with str function'''
+        """call get with str function"""
         return self.get(key, str)
 
     def get_int(self, key):
-        '''exec get with int conversion'''
+        """exec get with int conversion"""
         return self.get(key, int)
