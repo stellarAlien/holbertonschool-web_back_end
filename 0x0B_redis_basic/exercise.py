@@ -37,7 +37,7 @@ def replay(fn: Callable):
     inputs = cache.lrange(f'{fn.__qualname__}:inputs', 0, -1)
     outputs = cache.lrange(f'{fn.__qualname__}:outputs', 0, -1)
     for i, o in zip(inputs, outputs):
-        print('Cache.store(*({:},)) -> {:}'.format(i.decode(), o.decode()))
+        print('{:}(*{:}) -> {:}'.format(fn.__qualname__, i.decode(), o.decode()))
 
 
 class Cache():
