@@ -29,7 +29,7 @@ def count_calls(method: Callable) -> Callable:
     return wrapper
 
 
-def replay(fn: Callable):
+def replay(fn: Callable) -> None:
     """display calls of a particular function"""
     cache = redis.Redis()
     count = cache.llen(f'{fn.__qualname__}:inputs')
@@ -37,7 +37,8 @@ def replay(fn: Callable):
     inputs = cache.lrange(f'{fn.__qualname__}:inputs', 0, -1)
     outputs = cache.lrange(f'{fn.__qualname__}:outputs', 0, -1)
     for i, o in zip(inputs, outputs):
-        print('{:}(*{:}) -> {:}'.format(fn.__qualname__, i.decode(), o.decode()))
+        print('{:}(*{:}) -> {:}'.format(fn.__qualname__,
+                                        i.decode(), o.decode()))
 
 
 class Cache():
