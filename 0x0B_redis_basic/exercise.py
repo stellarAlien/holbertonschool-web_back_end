@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
 
-from functools import wraps
-from typing import Any, Callable, Optional, Union
-import redis
 import uuid
+from functools import wraps
+from typing import Callable, Optional, Union
+import redis
 
 
 # count = {}
 def call_history(method: Callable) -> Callable:
     @wraps(method)
-    def save_io(self, *args, **kwargs):
+    def save_io(self, *args):
         """save input and ouput of a method in redis cache"""
         inputs = str(args)
         self._redis.rpush(f'{method.__qualname__}:inputs', inputs)
