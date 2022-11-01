@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+"""module for redis cache"""
+
 
 import uuid
 from functools import wraps
