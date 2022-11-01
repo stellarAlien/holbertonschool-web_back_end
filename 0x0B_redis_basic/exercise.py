@@ -22,8 +22,8 @@ def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """increment counter for calling funciton in redis cache"""
-        method(self, *args, **kwargs)
-        return self._redis.incr(method.__qualname__)
+        self._redis.incr(method.__qualname__)
+        return method(self, *args, **kwargs)
     return wrapper
 
 
