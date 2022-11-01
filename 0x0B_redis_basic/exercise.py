@@ -41,6 +41,7 @@ def replay(fn: Callable) -> None:
 
 class Cache():
     """cache that is linked to a db"""
+
     def __init__(self) -> None:
         """init redis cache"""
         self._redis = redis.Redis()
