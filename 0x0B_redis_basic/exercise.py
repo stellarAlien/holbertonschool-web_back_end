@@ -10,14 +10,12 @@ import uuid
 # count = {}
 def call_history(method: Callable) -> Callable:
     @wraps(method)
-    def save_io(*args):
-        ''''''
-        # need to get back to why it worked like this
-        for i in args:
-            inputs = i
-        args[0]._redis.rpush(f'{method.__qualname__}:inputs', str(inputs))
-        outputs = method(*args)
-        args[0]._redis.rpush(f'{method.__qualname__}:outputs', str(outputs))
+    def save_io(self, *args, **kwargs):
+        """save input and ouput of a method in redis cache"""
+        inputs = str(args)
+        self._redis.rpush(f'{method.__qualname__}:inputs', inputs)
+        outputs = method(self, inputs)
+        self._redis.rpush(f'{method.__qualname__}:outputs', outputs)
         return outputs
     return save_io
 
