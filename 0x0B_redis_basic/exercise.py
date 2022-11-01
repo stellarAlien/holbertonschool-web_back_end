@@ -24,11 +24,22 @@ def count_calls(method: Callable) -> Callable:
     @wraps(method)
     def wrapper(self, *args, **kwargs):
         """increment counter for calling funciton in redis cache"""
-        self._redis.incr(method.__qualname__)
-        return method(self, *args, **kwargs)
+        method(self, *args, **kwargs)
+        return self._redis.incr(method.__qualname__)
     return wrapper
 
-  
+
+def replay(fn: Callable):
+    """display calls of a particular function"""
+    cache = redis.Redis()
+    count = cache.llen(f'{fn.__qualname__}:inputs')
+    print('Cache.{:} was called {:} times:'.format(fn.__qualname__, count))
+    inputs = cache.lrange(f'{fn.__qualname__}:inputs', 0, -1)
+    outputs = cache.lrange(f'{fn.__qualname__}:outputs', 0, -1)
+    for i, o in zip(inputs, outputs):
+        print('Cache.store(*({:},)) -> {:}'.format(i.decode(), o.decode()))
+
+
 class Cache():
     '''cache that is linked to a db'''
 
