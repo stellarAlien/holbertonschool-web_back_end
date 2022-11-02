@@ -9,6 +9,7 @@ import redis
 
 
 def call_history(method: Callable) -> Callable:
+    """wrapper function for any metjod that stores io"""
     @wraps(method)
     def save_io(self, *args):
         """save input and ouput of a method in redis cache"""
