@@ -47,7 +47,7 @@ class Cache():
 
     def __init__(self) -> None:
         """init redis cache"""
-        self._redis = redis.Redis(decode_responses=True)
+        self._redis = redis.Redis()
         self._redis.flushdb()
 
     @count_calls
