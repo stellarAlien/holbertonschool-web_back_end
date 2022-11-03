@@ -6,7 +6,7 @@ BEGIN
                 WHERE name LIKE project_name LIMIT 1)
     THEN
         SET @project_id = 
-        (SELECT id from holberton.projects 
+        (SELECT id from projects 
                 WHERE projects.name = project_name);
     ELSE
         INSERT into projects(name) values(project_name);
