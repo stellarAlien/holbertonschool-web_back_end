@@ -3,7 +3,6 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS ComputeAverageScoreForUser;
 CREATE procedure ComputeAverageScoreForUser(IN user_id INT)
 BEGIN
-UPDATE users SET average_score = (SELECT user_id, project_id, AVG(score) 
-FROM holberton.corrections
-Where user_id = corrections.user_id) Where id = user_id;
+UPDATE users SET average_score = (SELECT AVG(score) 
+FROM holberton.corrections Where user_id = corrections.user_id) Where id = user_id;
 END; $$
