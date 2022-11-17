@@ -3,7 +3,7 @@
 
 from pymongo import MongoClient
 
-methods = ["GET", "POST", "PUT", "DELETE", "PATCH"]
+methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 
 def get_stats(collection):
