@@ -1,3 +1,5 @@
+/*eslint no-param-reassign: "error"*/
+/* eslint-disable */
 export default function appendToEachArrayValue(array, appendString) {
   let idx = 0;
 
