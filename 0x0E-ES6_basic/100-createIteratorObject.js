@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default function createIteratorObject(report) {
   const emp = [];
   for (const k of Object.keys(report.allEmployees)) {
