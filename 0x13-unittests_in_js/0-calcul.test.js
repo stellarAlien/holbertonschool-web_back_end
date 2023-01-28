@@ -1,58 +1,23 @@
 const assert = require('assert');
-const calculateNumber = require('./0-calcul');
+const calculateNumber = require('./0-calcul.js');
 
 describe('calculateNumber', () => {
-  describe('two Integers', () => {
-    it('should return 4', () => {
-      assert.strictEqual(calculateNumber(1, 3), 4);
-    });
+  it('checks the output', () => {
+    assert.equal(calculateNumber(1.5, 3.7), 6);
+    assert.strictEqual(calculateNumber(1, 3), 4);
+    assert.strictEqual(calculateNumber(1, 3.7), 5);
+    assert.strictEqual(calculateNumber(1.2, 3.7), 5);
+    assert.strictEqual(calculateNumber(1.5, 3.7), 6);
+    assert.strictEqual(calculateNumber(3.7, 1), 5);
+    assert.strictEqual(calculateNumber(3.7, 1.2), 5);
   });
-
-  describe('one round', () => {
-    it('should return 5', () => {
-      assert.strictEqual(calculateNumber(1, 3.7), 5);
-    });
+  it('negative numbers', () => {
+    assert.strictEqual(calculateNumber(-1, 1), 0);
+    assert.strictEqual(calculateNumber(1, -1), 0);
+    assert.strictEqual(calculateNumber(-1, -1), -2);
   });
-
-  describe('one round 2', () => {
-    it('should return 5', () => {
-      assert.strictEqual(calculateNumber(3.7, 1), 5);
-    });
-  });
-
-  describe('one round floor', () => {
-    it('should return 4', () => {
-      assert.strictEqual(calculateNumber(1, 3.3), 4);
-    });
-  });
-
-  describe('one round floor 2', () => {
-    it('should return 4', () => {
-      assert.strictEqual(calculateNumber(3.3, 1), 4);
-    });
-  });
-
-  describe('two round', () => {
-    it('should return 5', () => {
-      assert.strictEqual(calculateNumber(1.2, 3.7), 5);
-    });
-  });
-
-  describe('two round again', () => {
-    it('should return 6', () => {
-      assert.strictEqual(calculateNumber(1.5, 3.7), 6);
-    });
-  });
-
-  describe('two round reversed', () => {
-    it('should return 5', () => {
-      assert.strictEqual(calculateNumber(3.7, 1.2), 5);
-    });
-  });
-
-  describe('two round again floor both', () => {
-    it('should return 3', () => {
-      assert.strictEqual(calculateNumber(1.2, 2.1), 3);
-    });
+  it('checks arguments', () => {
+    assert.strictEqual(isNaN(calculateNumber(1)), true);
+    assert.strictEqual(isNaN(calculateNumber()), true);
   });
 });
