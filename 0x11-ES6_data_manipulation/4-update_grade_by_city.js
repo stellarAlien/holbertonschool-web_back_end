@@ -1,10 +1,11 @@
-export default function updateStudentGradeByCity(students, city, newGrades) {
-    if(Array.isArray(students)) {
-    const filtered = students.filter(i => i.city == city)
-    filtered.map(s => {
-        data = newGrades.filter((grade => grade.studentId == s.id));
-        return {s, grade: data ? data.grade :'N/A'};
+export default function getStudentsByLocation(array, city, grad) {
+  return array
+    .filter((i) => i.location === city)
+    .map((student) => {
+      const student_grade = grad
+        .filter((i) => i.studentId === student.id)
+        .map((x) => x.grade)[0];
+      const grade = student_grade || 'N/A';
+      return { ...student, grade };
     });
 }
-    throw new Error('getListStudent is not an Array');
-} 
